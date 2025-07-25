@@ -53,7 +53,7 @@ const Pets: React.FC = () => {
       // Mock data for demo if API fails
       setPets([
         {
-          id: "1",
+          _id: "1",
           name: "Fire Phoenix",
           sub_title: "Legendary Companion",
           description: "A majestic fire bird with healing powers",
@@ -61,7 +61,7 @@ const Pets: React.FC = () => {
           image: "/placeholder.svg",
         },
         {
-          id: "2",
+          _id: "2",
           name: "Ice Wolf",
           sub_title: "Arctic Guardian",
           description: "A loyal wolf companion from the frozen lands",
@@ -90,7 +90,7 @@ const Pets: React.FC = () => {
           uid: "-1",
           name: "image.png",
           status: "done",
-          url: pet.image,
+          url: `https://admin-backend-f9p5.onrender.com/${pet.image}`,
         },
       ]);
     } else {
@@ -123,18 +123,19 @@ const Pets: React.FC = () => {
       }
 
       if (editingPet) {
-        await petsAPI.update(editingPet.id, formData);
-        message.success("Pet updated successfully");
+        const response = await petsAPI.update(editingPet._id, formData);
+        message.success(response.message || "Pet updated successfully");
       } else {
-        await petsAPI.create(formData);
-        message.success("Pet created successfully");
+        const response = await petsAPI.create(formData);
+        message.success(response.message || "Pet created successfully");
       }
 
       setModalVisible(false);
       fetchPets();
-    } catch (error) {
+    } catch (error: any) {
       message.error(
-        editingPet ? "Failed to update pet" : "Failed to create pet",
+        error.response?.data?.message ||
+          (editingPet ? "Failed to update pet" : "Failed to create pet"),
       );
     }
   };
@@ -163,7 +164,7 @@ const Pets: React.FC = () => {
       render: (image: string) => (
         <Avatar
           size={50}
-          src={image}
+          src={`https://admin-backend-f9p5.onrender.com/${image}`}
           icon={<HeartOutlined />}
           style={{ backgroundColor: "#eb2f96" }}
         />
@@ -207,7 +208,7 @@ const Pets: React.FC = () => {
           />
           <Popconfirm
             title="Are you sure to delete this pet?"
-            onConfirm={() => handleDelete(record.id)}
+            onConfirm={() => handleDelete(record._id)}
             okText="Yes"
             cancelText="No"
           >
@@ -259,7 +260,7 @@ const Pets: React.FC = () => {
         <Table
           columns={columns}
           dataSource={filteredPets}
-          rowKey="id"
+          rowKey="_id"
           loading={loading}
           pagination={{
             total: filteredPets.length,

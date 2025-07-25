@@ -59,7 +59,7 @@ const Characters: React.FC = () => {
       // Mock data for demo if API fails
       setCharacters([
         {
-          id: "1",
+          _id: "1",
           name: "Warrior Zara",
           gender: "Female",
           age: 25,
@@ -69,7 +69,7 @@ const Characters: React.FC = () => {
           image: "/placeholder.svg",
         },
         {
-          id: "2",
+          _id: "2",
           name: "Mage Elara",
           gender: "Female",
           age: 30,
@@ -100,7 +100,7 @@ const Characters: React.FC = () => {
           uid: "-1",
           name: "image.png",
           status: "done",
-          url: character.image,
+          url: `https://admin-backend-f9p5.onrender.com/${character.image}`,
         },
       ]);
     } else {
@@ -133,20 +133,24 @@ const Characters: React.FC = () => {
       }
 
       if (editingCharacter) {
-        await charactersAPI.update(editingCharacter.id, formData);
-        message.success("Character updated successfully");
+        const response = await charactersAPI.update(
+          editingCharacter._id,
+          formData,
+        );
+        message.success(response.message || "Character updated successfully");
       } else {
-        await charactersAPI.create(formData);
-        message.success("Character created successfully");
+        const response = await charactersAPI.create(formData);
+        message.success(response.message || "Character created successfully");
       }
 
       setModalVisible(false);
       fetchCharacters();
-    } catch (error) {
+    } catch (error: any) {
       message.error(
-        editingCharacter
-          ? "Failed to update character"
-          : "Failed to create character",
+        error.response?.data?.message ||
+          (editingCharacter
+            ? "Failed to update character"
+            : "Failed to create character"),
       );
     }
   };
@@ -174,8 +178,8 @@ const Characters: React.FC = () => {
       render: (image: string) => (
         <Avatar
           size={50}
-          src={image}
-          icon={<UserOutlined />}
+          src={`https://admin-backend-f9p5.onrender.com/${image}`}
+          // icon={<UserOutlined />}
           style={{ backgroundColor: "#1890ff" }}
         />
       ),
@@ -237,7 +241,7 @@ const Characters: React.FC = () => {
           />
           <Popconfirm
             title="Are you sure to delete this character?"
-            onConfirm={() => handleDelete(record.id)}
+            onConfirm={() => handleDelete(record._id)}
             okText="Yes"
             cancelText="No"
           >
@@ -289,7 +293,7 @@ const Characters: React.FC = () => {
         <Table
           columns={columns}
           dataSource={filteredCharacters}
-          rowKey="id"
+          rowKey="_id"
           loading={loading}
           pagination={{
             total: filteredCharacters.length,

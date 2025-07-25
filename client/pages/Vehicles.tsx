@@ -58,7 +58,7 @@ const Vehicles: React.FC = () => {
       // Mock data for demo if API fails
       setVehicles([
         {
-          id: "1",
+          _id: "1",
           name: "Lightning Bike",
           hp: 250,
           acceleration_torque: 85,
@@ -69,7 +69,7 @@ const Vehicles: React.FC = () => {
           image: "/placeholder.svg",
         },
         {
-          id: "2",
+          _id: "2",
           name: "Storm Cruiser",
           hp: 400,
           acceleration_torque: 95,
@@ -101,7 +101,7 @@ const Vehicles: React.FC = () => {
           uid: "-1",
           name: "image.png",
           status: "done",
-          url: vehicle.image,
+          url: `https://admin-backend-f9p5.onrender.com/${vehicle.image}`,
         },
       ]);
     } else {
@@ -134,20 +134,21 @@ const Vehicles: React.FC = () => {
       }
 
       if (editingVehicle) {
-        await vehiclesAPI.update(editingVehicle.id, formData);
-        message.success("Vehicle updated successfully");
+        const response = await vehiclesAPI.update(editingVehicle._id, formData);
+        message.success(response.message || "Vehicle updated successfully");
       } else {
-        await vehiclesAPI.create(formData);
-        message.success("Vehicle created successfully");
+        const response = await vehiclesAPI.create(formData);
+        message.success(response.message || "Vehicle created successfully");
       }
 
       setModalVisible(false);
       fetchVehicles();
-    } catch (error) {
+    } catch (error: any) {
       message.error(
-        editingVehicle
+        error.response?.data?.message ||
+        (editingVehicle
           ? "Failed to update vehicle"
-          : "Failed to create vehicle",
+          : "Failed to create vehicle"),
       );
     }
   };
@@ -182,7 +183,7 @@ const Vehicles: React.FC = () => {
       render: (image: string) => (
         <Avatar
           size={50}
-          src={image}
+          src={`https://admin-backend-f9p5.onrender.com/${image}`}
           icon={<CarOutlined />}
           style={{ backgroundColor: "#faad14" }}
         />
@@ -261,7 +262,7 @@ const Vehicles: React.FC = () => {
           />
           <Popconfirm
             title="Are you sure to delete this vehicle?"
-            onConfirm={() => handleDelete(record.id)}
+            onConfirm={() => handleDelete(record._id)}
             okText="Yes"
             cancelText="No"
           >
@@ -313,7 +314,7 @@ const Vehicles: React.FC = () => {
         <Table
           columns={columns}
           dataSource={filteredVehicles}
-          rowKey="id"
+          rowKey="_id"
           loading={loading}
           pagination={{
             total: filteredVehicles.length,
