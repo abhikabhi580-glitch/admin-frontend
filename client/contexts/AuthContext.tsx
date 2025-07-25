@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { authAPI } from '@/services/api';
+import { message } from 'antd';
 
 interface User {
   id: string;
@@ -35,7 +37,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     // Check for existing token on app load
     const token = localStorage.getItem('auth_token');
     if (token) {
-      // Simulate token validation (in real app, validate with backend)
       try {
         const userData = JSON.parse(localStorage.getItem('user_data') || '');
         setUser(userData);
@@ -49,28 +50,30 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
-    
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Demo credentials - in real app, this would be an API call
-    if (email === 'admin@example.com' && password === '........') {
-      const mockUser: User = {
-        id: '1',
-        email: email,
-        name: 'Game Admin'
-      };
-      
-      // Generate a mock JWT token
-      const mockToken = btoa(JSON.stringify({ userId: mockUser.id, exp: Date.now() + 24 * 60 * 60 * 1000 }));
-      
-      localStorage.setItem('auth_token', mockToken);
-      localStorage.setItem('user_data', JSON.stringify(mockUser));
-      setUser(mockUser);
+
+    try {
+      const response = await authAPI.login(email, password);
+
+      if (response.token) {
+        const userData: User = {
+          id: '1',
+          email: email,
+          name: 'Admin User'
+        };
+
+        localStorage.setItem('auth_token', response.token);
+        localStorage.setItem('user_data', JSON.stringify(userData));
+        setUser(userData);
+        message.success('Login successful!');
+        setIsLoading(false);
+        return true;
+      }
+    } catch (error: any) {
+      message.error(error.response?.data?.message || 'Login failed');
       setIsLoading(false);
-      return true;
+      return false;
     }
-    
+
     setIsLoading(false);
     return false;
   };
@@ -79,6 +82,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user_data');
     setUser(null);
+    message.success('Logged out successfully');
   };
 
   const value: AuthContextType = {
