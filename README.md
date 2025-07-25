@@ -15,7 +15,8 @@ A beautiful, modern admin dashboard built with React, TypeScript, and Ant Design
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - npm or yarn
 
 ### Installation
