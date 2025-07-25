@@ -18,7 +18,15 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#667eea',
+          borderRadius: 8,
+        },
+        algorithm: theme.defaultAlgorithm,
+      }}
+    >
       <AuthProvider>
         <BrowserRouter>
           <Routes>
@@ -67,7 +75,7 @@ const App = () => (
           </Routes>
         </BrowserRouter>
       </AuthProvider>
-    </TooltipProvider>
+    </ConfigProvider>
   </QueryClientProvider>
 );
 
