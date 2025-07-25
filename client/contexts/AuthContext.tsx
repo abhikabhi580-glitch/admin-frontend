@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     // Demo credentials - in real app, this would be an API call
-    if (email === 'admin@gamemanager.com' && password === 'admin123') {
+    if (email === 'admin@example.com' && password === '........') {
       const mockUser: User = {
         id: '1',
         email: email,
