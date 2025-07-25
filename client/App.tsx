@@ -1,7 +1,8 @@
 import "./global.css";
+import 'antd/dist/reset.css';
 
 import { createRoot } from "react-dom/client";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { ConfigProvider, theme } from 'antd';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
