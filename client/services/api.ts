@@ -1,18 +1,18 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_BASE_URL = 'https://admin-backend-f9p5.onrender.com';
+const API_BASE_URL = "https://admin-backend-f9p5.onrender.com";
 
 // Create axios instance
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
 // Add token to requests
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('auth_token');
+  const token = localStorage.getItem("auth_token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -22,7 +22,7 @@ api.interceptors.request.use((config) => {
 // Auth API
 export const authAPI = {
   login: async (email: string, password: string) => {
-    const response = await api.post('/api/auth/login', { email, password });
+    const response = await api.post("/api/auth/login", { email, password });
     return response.data;
   },
 };
@@ -30,7 +30,7 @@ export const authAPI = {
 // Dashboard API
 export const dashboardAPI = {
   getSummary: async () => {
-    const response = await api.get('/api/dashboard/summary');
+    const response = await api.get("/api/dashboard/summary");
     return response.data;
   },
 };
@@ -38,7 +38,7 @@ export const dashboardAPI = {
 // Characters API
 export const charactersAPI = {
   getAll: async () => {
-    const response = await api.get('/api/characters');
+    const response = await api.get("/api/characters");
     return response.data;
   },
   getById: async (id: string) => {
@@ -46,14 +46,14 @@ export const charactersAPI = {
     return response.data;
   },
   create: async (formData: FormData) => {
-    const response = await api.post('/api/characters', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
+    const response = await api.post("/api/characters", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
     });
     return response.data;
   },
   update: async (id: string, formData: FormData) => {
     const response = await api.put(`/api/characters/${id}`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
+      headers: { "Content-Type": "multipart/form-data" },
     });
     return response.data;
   },
@@ -66,18 +66,18 @@ export const charactersAPI = {
 // Pets API
 export const petsAPI = {
   getAll: async () => {
-    const response = await api.get('/api/pets');
+    const response = await api.get("/api/pets");
     return response.data;
   },
   create: async (formData: FormData) => {
-    const response = await api.post('/api/pets', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
+    const response = await api.post("/api/pets", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
     });
     return response.data;
   },
   update: async (id: string, formData: FormData) => {
     const response = await api.put(`/api/pets/${id}`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
+      headers: { "Content-Type": "multipart/form-data" },
     });
     return response.data;
   },
@@ -90,18 +90,18 @@ export const petsAPI = {
 // Vehicles API
 export const vehiclesAPI = {
   getAll: async () => {
-    const response = await api.get('/api/vehicles');
+    const response = await api.get("/api/vehicles");
     return response.data;
   },
   create: async (formData: FormData) => {
-    const response = await api.post('/api/vehicles', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
+    const response = await api.post("/api/vehicles", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
     });
     return response.data;
   },
   update: async (id: string, formData: FormData) => {
     const response = await api.put(`/api/vehicles/${id}`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
+      headers: { "Content-Type": "multipart/form-data" },
     });
     return response.data;
   },
@@ -115,7 +115,7 @@ export const vehiclesAPI = {
 export interface Character {
   id: string;
   name: string;
-  gender: 'Male' | 'Female' | 'Other';
+  gender: "Male" | "Female" | "Other";
   age: number;
   description: string;
   ability: string;

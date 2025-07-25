@@ -1,7 +1,7 @@
 import "./global.css";
 
 import { createRoot } from "react-dom/client";
-import { ConfigProvider, theme } from 'antd';
+import { ConfigProvider, theme } from "antd";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -20,7 +20,7 @@ const App = () => (
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: '#667eea',
+          colorPrimary: "#667eea",
           borderRadius: 8,
         },
         algorithm: theme.defaultAlgorithm,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Table,
   Button,
@@ -15,7 +15,7 @@ import {
   Typography,
   Tag,
   Avatar,
-} from 'antd';
+} from "antd";
 import {
   PlusOutlined,
   EditOutlined,
@@ -23,10 +23,10 @@ import {
   UploadOutlined,
   HeartOutlined,
   SearchOutlined,
-} from '@ant-design/icons';
-import { petsAPI, Pet } from '@/services/api';
-import type { ColumnsType } from 'antd/es/table';
-import type { UploadFile } from 'antd/es/upload/interface';
+} from "@ant-design/icons";
+import { petsAPI, Pet } from "@/services/api";
+import type { ColumnsType } from "antd/es/table";
+import type { UploadFile } from "antd/es/upload/interface";
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -38,7 +38,7 @@ const Pets: React.FC = () => {
   const [editingPet, setEditingPet] = useState<Pet | null>(null);
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     fetchPets();
@@ -53,20 +53,20 @@ const Pets: React.FC = () => {
       // Mock data for demo if API fails
       setPets([
         {
-          id: '1',
-          name: 'Fire Phoenix',
-          sub_title: 'Legendary Companion',
-          description: 'A majestic fire bird with healing powers',
-          ability: 'Fire Healing',
-          image: '/placeholder.svg',
+          id: "1",
+          name: "Fire Phoenix",
+          sub_title: "Legendary Companion",
+          description: "A majestic fire bird with healing powers",
+          ability: "Fire Healing",
+          image: "/placeholder.svg",
         },
         {
-          id: '2',
-          name: 'Ice Wolf',
-          sub_title: 'Arctic Guardian',
-          description: 'A loyal wolf companion from the frozen lands',
-          ability: 'Ice Shield',
-          image: '/placeholder.svg',
+          id: "2",
+          name: "Ice Wolf",
+          sub_title: "Arctic Guardian",
+          description: "A loyal wolf companion from the frozen lands",
+          ability: "Ice Shield",
+          image: "/placeholder.svg",
         },
       ]);
     } finally {
@@ -87,9 +87,9 @@ const Pets: React.FC = () => {
     if (pet.image) {
       setFileList([
         {
-          uid: '-1',
-          name: 'image.png',
-          status: 'done',
+          uid: "-1",
+          name: "image.png",
+          status: "done",
           url: pet.image,
         },
       ]);
@@ -102,10 +102,10 @@ const Pets: React.FC = () => {
   const handleDelete = async (id: string) => {
     try {
       await petsAPI.delete(id);
-      message.success('Pet deleted successfully');
+      message.success("Pet deleted successfully");
       fetchPets();
     } catch (error) {
-      message.error('Failed to delete pet');
+      message.error("Failed to delete pet");
     }
   };
 
@@ -119,76 +119,83 @@ const Pets: React.FC = () => {
       });
 
       if (fileList.length > 0 && fileList[0].originFileObj) {
-        formData.append('image', fileList[0].originFileObj);
+        formData.append("image", fileList[0].originFileObj);
       }
 
       if (editingPet) {
         await petsAPI.update(editingPet.id, formData);
-        message.success('Pet updated successfully');
+        message.success("Pet updated successfully");
       } else {
         await petsAPI.create(formData);
-        message.success('Pet created successfully');
+        message.success("Pet created successfully");
       }
 
       setModalVisible(false);
       fetchPets();
     } catch (error) {
-      message.error(editingPet ? 'Failed to update pet' : 'Failed to create pet');
+      message.error(
+        editingPet ? "Failed to update pet" : "Failed to create pet",
+      );
     }
   };
 
-  const handleUploadChange = ({ fileList: newFileList }: { fileList: UploadFile[] }) => {
+  const handleUploadChange = ({
+    fileList: newFileList,
+  }: {
+    fileList: UploadFile[];
+  }) => {
     setFileList(newFileList);
   };
 
-  const filteredPets = pets.filter((pet) =>
-    pet.name.toLowerCase().includes(searchText.toLowerCase()) ||
-    pet.ability.toLowerCase().includes(searchText.toLowerCase()) ||
-    pet.sub_title.toLowerCase().includes(searchText.toLowerCase())
+  const filteredPets = pets.filter(
+    (pet) =>
+      pet.name.toLowerCase().includes(searchText.toLowerCase()) ||
+      pet.ability.toLowerCase().includes(searchText.toLowerCase()) ||
+      pet.sub_title.toLowerCase().includes(searchText.toLowerCase()),
   );
 
   const columns: ColumnsType<Pet> = [
     {
-      title: 'Image',
-      dataIndex: 'image',
-      key: 'image',
+      title: "Image",
+      dataIndex: "image",
+      key: "image",
       width: 80,
       render: (image: string) => (
         <Avatar
           size={50}
           src={image}
           icon={<HeartOutlined />}
-          style={{ backgroundColor: '#eb2f96' }}
+          style={{ backgroundColor: "#eb2f96" }}
         />
       ),
     },
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
       sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
-      title: 'Subtitle',
-      dataIndex: 'sub_title',
-      key: 'sub_title',
+      title: "Subtitle",
+      dataIndex: "sub_title",
+      key: "sub_title",
       render: (subtitle: string) => <Tag color="cyan">{subtitle}</Tag>,
     },
     {
-      title: 'Description',
-      dataIndex: 'description',
-      key: 'description',
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
       ellipsis: true,
     },
     {
-      title: 'Ability',
-      dataIndex: 'ability',
-      key: 'ability',
+      title: "Ability",
+      dataIndex: "ability",
+      key: "ability",
       render: (ability: string) => <Tag color="purple">{ability}</Tag>,
     },
     {
-      title: 'Actions',
-      key: 'actions',
+      title: "Actions",
+      key: "actions",
       width: 120,
       render: (_, record) => (
         <Space>
@@ -204,7 +211,12 @@ const Pets: React.FC = () => {
             okText="Yes"
             cancelText="No"
           >
-            <Button type="primary" danger icon={<DeleteOutlined />} size="small" />
+            <Button
+              type="primary"
+              danger
+              icon={<DeleteOutlined />}
+              size="small"
+            />
           </Popconfirm>
         </Space>
       ),
@@ -214,7 +226,11 @@ const Pets: React.FC = () => {
   return (
     <div>
       <Card>
-        <Row justify="space-between" align="middle" style={{ marginBottom: 16 }}>
+        <Row
+          justify="space-between"
+          align="middle"
+          style={{ marginBottom: 16 }}
+        >
           <Col>
             <Title level={3} style={{ margin: 0 }}>
               Pets Management
@@ -229,7 +245,11 @@ const Pets: React.FC = () => {
                 onChange={(e) => setSearchText(e.target.value)}
                 style={{ width: 250 }}
               />
-              <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
+              <Button
+                type="primary"
+                icon={<PlusOutlined />}
+                onClick={handleCreate}
+              >
                 Add Pet
               </Button>
             </Space>
@@ -246,13 +266,14 @@ const Pets: React.FC = () => {
             pageSize: 10,
             showSizeChanger: true,
             showQuickJumper: true,
-            showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} pets`,
+            showTotal: (total, range) =>
+              `${range[0]}-${range[1]} of ${total} pets`,
           }}
         />
       </Card>
 
       <Modal
-        title={editingPet ? 'Edit Pet' : 'Create Pet'}
+        title={editingPet ? "Edit Pet" : "Create Pet"}
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
@@ -269,7 +290,7 @@ const Pets: React.FC = () => {
               <Form.Item
                 name="name"
                 label="Name"
-                rules={[{ required: true, message: 'Please input pet name!' }]}
+                rules={[{ required: true, message: "Please input pet name!" }]}
               >
                 <Input placeholder="Enter pet name" />
               </Form.Item>
@@ -278,7 +299,7 @@ const Pets: React.FC = () => {
               <Form.Item
                 name="sub_title"
                 label="Subtitle"
-                rules={[{ required: true, message: 'Please input subtitle!' }]}
+                rules={[{ required: true, message: "Please input subtitle!" }]}
               >
                 <Input placeholder="Enter pet subtitle" />
               </Form.Item>
@@ -288,7 +309,7 @@ const Pets: React.FC = () => {
           <Form.Item
             name="ability"
             label="Ability"
-            rules={[{ required: true, message: 'Please input ability!' }]}
+            rules={[{ required: true, message: "Please input ability!" }]}
           >
             <Input placeholder="Enter pet ability" />
           </Form.Item>
@@ -296,7 +317,7 @@ const Pets: React.FC = () => {
           <Form.Item
             name="description"
             label="Description"
-            rules={[{ required: true, message: 'Please input description!' }]}
+            rules={[{ required: true, message: "Please input description!" }]}
           >
             <TextArea rows={4} placeholder="Enter pet description" />
           </Form.Item>
@@ -319,11 +340,11 @@ const Pets: React.FC = () => {
             </Upload>
           </Form.Item>
 
-          <Form.Item style={{ marginTop: 24, textAlign: 'right' }}>
+          <Form.Item style={{ marginTop: 24, textAlign: "right" }}>
             <Space>
               <Button onClick={() => setModalVisible(false)}>Cancel</Button>
               <Button type="primary" htmlType="submit">
-                {editingPet ? 'Update' : 'Create'}
+                {editingPet ? "Update" : "Create"}
               </Button>
             </Space>
           </Form.Item>

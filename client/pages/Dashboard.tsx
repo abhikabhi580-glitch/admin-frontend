@@ -1,5 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, Statistic, Typography, Spin, List, Avatar, Tag } from 'antd';
+import React, { useEffect, useState } from "react";
+import {
+  Row,
+  Col,
+  Card,
+  Statistic,
+  Typography,
+  Spin,
+  List,
+  Avatar,
+  Tag,
+} from "antd";
 import {
   UserOutlined,
   HeartOutlined,
@@ -9,9 +19,9 @@ import {
   ArrowDownOutlined,
   PlusOutlined,
   EditOutlined,
-  DeleteOutlined
-} from '@ant-design/icons';
-import { dashboardAPI, DashboardSummary } from '@/services/api';
+  DeleteOutlined,
+} from "@ant-design/icons";
+import { dashboardAPI, DashboardSummary } from "@/services/api";
 
 const { Title, Text } = Typography;
 
@@ -47,58 +57,58 @@ const Dashboard: React.FC = () => {
   const recentActivities = [
     {
       id: 1,
-      action: 'Created new character',
-      item: 'Warrior Zara',
-      time: '2 minutes ago',
-      type: 'create',
-      icon: <PlusOutlined style={{ color: '#52c41a' }} />,
+      action: "Created new character",
+      item: "Warrior Zara",
+      time: "2 minutes ago",
+      type: "create",
+      icon: <PlusOutlined style={{ color: "#52c41a" }} />,
     },
     {
       id: 2,
-      action: 'Updated vehicle stats',
-      item: 'Lightning Bike',
-      time: '15 minutes ago',
-      type: 'update',
-      icon: <EditOutlined style={{ color: '#1890ff' }} />,
+      action: "Updated vehicle stats",
+      item: "Lightning Bike",
+      time: "15 minutes ago",
+      type: "update",
+      icon: <EditOutlined style={{ color: "#1890ff" }} />,
     },
     {
       id: 3,
-      action: 'Deleted pet',
-      item: 'Fire Dragon',
-      time: '1 hour ago',
-      type: 'delete',
-      icon: <DeleteOutlined style={{ color: '#ff4d4f' }} />,
+      action: "Deleted pet",
+      item: "Fire Dragon",
+      time: "1 hour ago",
+      type: "delete",
+      icon: <DeleteOutlined style={{ color: "#ff4d4f" }} />,
     },
     {
       id: 4,
-      action: 'Created new pet',
-      item: 'Ice Phoenix',
-      time: '2 hours ago',
-      type: 'create',
-      icon: <PlusOutlined style={{ color: '#52c41a' }} />,
+      action: "Created new pet",
+      item: "Ice Phoenix",
+      time: "2 hours ago",
+      type: "create",
+      icon: <PlusOutlined style={{ color: "#52c41a" }} />,
     },
     {
       id: 5,
-      action: 'Updated character',
-      item: 'Mage Elara',
-      time: '3 hours ago',
-      type: 'update',
-      icon: <EditOutlined style={{ color: '#1890ff' }} />,
+      action: "Updated character",
+      item: "Mage Elara",
+      time: "3 hours ago",
+      type: "update",
+      icon: <EditOutlined style={{ color: "#1890ff" }} />,
     },
   ];
 
   const getTypeTag = (type: string) => {
     const colors = {
-      create: 'success',
-      update: 'processing',
-      delete: 'error',
+      create: "success",
+      update: "processing",
+      delete: "error",
     };
     return <Tag color={colors[type as keyof typeof colors]}>{type}</Tag>;
   };
 
   if (loading) {
     return (
-      <div style={{ textAlign: 'center', padding: '50px' }}>
+      <div style={{ textAlign: "center", padding: "50px" }}>
         <Spin size="large" />
         <div style={{ marginTop: 16 }}>
           <Text>Loading dashboard...</Text>
@@ -113,7 +123,9 @@ const Dashboard: React.FC = () => {
         <Title level={2} style={{ margin: 0 }}>
           Dashboard Overview
         </Title>
-        <Text type="secondary">Welcome back! Here's what's happening with your game assets.</Text>
+        <Text type="secondary">
+          Welcome back! Here's what's happening with your game assets.
+        </Text>
       </div>
 
       {/* Stats Cards */}
@@ -126,14 +138,14 @@ const Dashboard: React.FC = () => {
               prefix={
                 <Avatar
                   style={{
-                    backgroundColor: '#1890ff',
+                    backgroundColor: "#1890ff",
                     marginRight: 8,
                   }}
                   icon={<UserOutlined />}
                 />
               }
               suffix={
-                <div style={{ fontSize: '12px', color: '#52c41a' }}>
+                <div style={{ fontSize: "12px", color: "#52c41a" }}>
                   <ArrowUpOutlined /> 12%
                 </div>
               }
@@ -148,14 +160,14 @@ const Dashboard: React.FC = () => {
               prefix={
                 <Avatar
                   style={{
-                    backgroundColor: '#eb2f96',
+                    backgroundColor: "#eb2f96",
                     marginRight: 8,
                   }}
                   icon={<HeartOutlined />}
                 />
               }
               suffix={
-                <div style={{ fontSize: '12px', color: '#52c41a' }}>
+                <div style={{ fontSize: "12px", color: "#52c41a" }}>
                   <ArrowUpOutlined /> 8%
                 </div>
               }
@@ -170,14 +182,14 @@ const Dashboard: React.FC = () => {
               prefix={
                 <Avatar
                   style={{
-                    backgroundColor: '#faad14',
+                    backgroundColor: "#faad14",
                     marginRight: 8,
                   }}
                   icon={<CarOutlined />}
                 />
               }
               suffix={
-                <div style={{ fontSize: '12px', color: '#ff4d4f' }}>
+                <div style={{ fontSize: "12px", color: "#ff4d4f" }}>
                   <ArrowDownOutlined /> 3%
                 </div>
               }
@@ -188,18 +200,22 @@ const Dashboard: React.FC = () => {
           <Card>
             <Statistic
               title="Total Assets"
-              value={summary.totalCharacters + summary.totalPets + summary.totalVehicles}
+              value={
+                summary.totalCharacters +
+                summary.totalPets +
+                summary.totalVehicles
+              }
               prefix={
                 <Avatar
                   style={{
-                    backgroundColor: '#52c41a',
+                    backgroundColor: "#52c41a",
                     marginRight: 8,
                   }}
                   icon={<TrophyOutlined />}
                 />
               }
               suffix={
-                <div style={{ fontSize: '12px', color: '#52c41a' }}>
+                <div style={{ fontSize: "12px", color: "#52c41a" }}>
                   <ArrowUpOutlined /> 7%
                 </div>
               }
@@ -214,66 +230,90 @@ const Dashboard: React.FC = () => {
           <Card
             title="Asset Distribution"
             extra={<Text type="secondary">Current breakdown</Text>}
-            style={{ height: '400px' }}
+            style={{ height: "400px" }}
           >
             <Row gutter={[16, 16]}>
               <Col span={24}>
                 <div
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '12px 0',
-                    borderBottom: '1px solid #f0f0f0',
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "12px 0",
+                    borderBottom: "1px solid #f0f0f0",
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <Avatar style={{ backgroundColor: '#1890ff' }} icon={<UserOutlined />} />
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 12 }}
+                  >
+                    <Avatar
+                      style={{ backgroundColor: "#1890ff" }}
+                      icon={<UserOutlined />}
+                    />
                     <div>
                       <div style={{ fontWeight: 500 }}>Characters</div>
                       <Text type="secondary">Game characters</Text>
                     </div>
                   </div>
-                  <Statistic value={summary.totalCharacters} valueStyle={{ fontSize: '18px' }} />
+                  <Statistic
+                    value={summary.totalCharacters}
+                    valueStyle={{ fontSize: "18px" }}
+                  />
                 </div>
               </Col>
               <Col span={24}>
                 <div
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '12px 0',
-                    borderBottom: '1px solid #f0f0f0',
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "12px 0",
+                    borderBottom: "1px solid #f0f0f0",
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <Avatar style={{ backgroundColor: '#eb2f96' }} icon={<HeartOutlined />} />
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 12 }}
+                  >
+                    <Avatar
+                      style={{ backgroundColor: "#eb2f96" }}
+                      icon={<HeartOutlined />}
+                    />
                     <div>
                       <div style={{ fontWeight: 500 }}>Pets</div>
                       <Text type="secondary">Companion pets</Text>
                     </div>
                   </div>
-                  <Statistic value={summary.totalPets} valueStyle={{ fontSize: '18px' }} />
+                  <Statistic
+                    value={summary.totalPets}
+                    valueStyle={{ fontSize: "18px" }}
+                  />
                 </div>
               </Col>
               <Col span={24}>
                 <div
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '12px 0',
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "12px 0",
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <Avatar style={{ backgroundColor: '#faad14' }} icon={<CarOutlined />} />
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 12 }}
+                  >
+                    <Avatar
+                      style={{ backgroundColor: "#faad14" }}
+                      icon={<CarOutlined />}
+                    />
                     <div>
                       <div style={{ fontWeight: 500 }}>Vehicles</div>
                       <Text type="secondary">Transportation</Text>
                     </div>
                   </div>
-                  <Statistic value={summary.totalVehicles} valueStyle={{ fontSize: '18px' }} />
+                  <Statistic
+                    value={summary.totalVehicles}
+                    valueStyle={{ fontSize: "18px" }}
+                  />
                 </div>
               </Col>
             </Row>
@@ -285,7 +325,7 @@ const Dashboard: React.FC = () => {
           <Card
             title="Recent Activity"
             extra={<Text type="secondary">Latest updates</Text>}
-            style={{ height: '400px' }}
+            style={{ height: "400px" }}
           >
             <List
               itemLayout="horizontal"
@@ -295,15 +335,23 @@ const Dashboard: React.FC = () => {
                   <List.Item.Meta
                     avatar={item.icon}
                     title={
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 8,
+                        }}
+                      >
                         <span>{item.action}</span>
                         {getTypeTag(item.type)}
                       </div>
                     }
                     description={
                       <div>
-                        <div style={{ fontWeight: 500, marginBottom: 4 }}>{item.item}</div>
-                        <Text type="secondary" style={{ fontSize: '12px' }}>
+                        <div style={{ fontWeight: 500, marginBottom: 4 }}>
+                          {item.item}
+                        </div>
+                        <Text type="secondary" style={{ fontSize: "12px" }}>
                           {item.time}
                         </Text>
                       </div>

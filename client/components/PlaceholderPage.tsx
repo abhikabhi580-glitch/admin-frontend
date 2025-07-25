@@ -1,7 +1,7 @@
-import React from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Construction, ArrowRight } from 'lucide-react';
+import React from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Construction, ArrowRight } from "lucide-react";
 
 interface PlaceholderPageProps {
   title: string;
@@ -10,11 +10,11 @@ interface PlaceholderPageProps {
   features: string[];
 }
 
-const PlaceholderPage: React.FC<PlaceholderPageProps> = ({ 
-  title, 
-  description, 
-  icon, 
-  features 
+const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
+  title,
+  description,
+  icon,
+  features,
 }) => {
   return (
     <div className="px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
@@ -22,7 +22,7 @@ const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
         <div className="mx-auto w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mb-6">
           <Construction className="w-8 h-8 text-amber-600" />
         </div>
-        
+
         <h1 className="text-3xl font-bold font-montserrat text-slate-900 mb-4">
           {title} Management
         </h1>
@@ -40,11 +40,15 @@ const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
                 <h3 className="font-semibold font-montserrat text-slate-900">
                   Coming Soon: Full {title} CRUD Operations
                 </h3>
-                <p className="text-slate-600">Complete management interface for your game assets</p>
+                <p className="text-slate-600">
+                  Complete management interface for your game assets
+                </p>
               </div>
             </div>
 
-            <h4 className="font-medium text-slate-900 mb-4">Planned Features:</h4>
+            <h4 className="font-medium text-slate-900 mb-4">
+              Planned Features:
+            </h4>
             <ul className="space-y-3 mb-8">
               {features.map((feature, index) => (
                 <li key={index} className="flex items-start gap-3">
@@ -56,9 +60,10 @@ const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
 
             <div className="bg-indigo-50 rounded-lg p-4 border border-indigo-200">
               <p className="text-sm text-indigo-800">
-                <strong>Ready to implement:</strong> This page will include full CRUD operations, 
-                search functionality, pagination, form validation, and image upload capabilities. 
-                Continue prompting to have this section fully built out!
+                <strong>Ready to implement:</strong> This page will include full
+                CRUD operations, search functionality, pagination, form
+                validation, and image upload capabilities. Continue prompting to
+                have this section fully built out!
               </p>
             </div>
           </CardContent>
