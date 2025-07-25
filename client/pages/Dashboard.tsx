@@ -321,7 +321,7 @@ const Dashboard: React.FC = () => {
         </Col>
 
         {/* Recent Activity */}
-        <Col xs={24} lg={12}>
+        {/* <Col xs={24} lg={12}>
           <Card
             title="Recent Activity"
             extra={<Text type="secondary">Latest updates</Text>}
@@ -361,7 +361,7 @@ const Dashboard: React.FC = () => {
               )}
             />
           </Card>
-        </Col>
+        </Col> */}
       </Row>
     </div>
   );

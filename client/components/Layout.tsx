@@ -212,12 +212,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "flex-start",
+                    height: '80px'
                   }}
                 >
-                  <span style={{ fontWeight: 500, fontSize: "14px" }}>
+                  <span style={{ fontWeight: 500, fontSize: "14px", height: '20px' }}>
                     {user?.name}
                   </span>
-                  <span style={{ fontSize: "12px", color: "#666" }}>
+                  <span style={{ fontSize: "12px", color: "#666", height: '20px' }}>
                     {user?.email}
                   </span>
                 </div>
