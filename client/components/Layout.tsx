@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Layout as AntLayout, Menu, Avatar, Dropdown, Typography, Button, theme } from 'antd';
+import {
+  DashboardOutlined,
+  UserOutlined,
+  HeartOutlined,
+  CarOutlined,
+  LogoutOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+} from '@ant-design/icons';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import { 
-  GamepadIcon, 
-  LayoutDashboard, 
-  Users, 
-  Heart, 
-  Car,
-  Menu,
-  X,
-  LogOut,
-  ChevronRight
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
+
+const { Header, Sider, Content } = AntLayout;
+const { Title } = Typography;
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -22,140 +22,202 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { user, logout } = useAuth();
   const location = useLocation();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+  const [collapsed, setCollapsed] = useState(false);
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
 
-  const navigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-    { name: 'Characters', href: '/characters', icon: Users },
-    { name: 'Pets', href: '/pets', icon: Heart },
-    { name: 'Vehicles', href: '/vehicles', icon: Car },
+  const menuItems = [
+    {
+      key: '/dashboard',
+      icon: <DashboardOutlined />,
+      label: 'Dashboard',
+    },
+    {
+      key: '/characters',
+      icon: <UserOutlined />,
+      label: 'Characters',
+    },
+    {
+      key: '/pets',
+      icon: <HeartOutlined />,
+      label: 'Pets',
+    },
+    {
+      key: '/vehicles',
+      icon: <CarOutlined />,
+      label: 'Vehicles',
+    },
   ];
+
+  const handleMenuClick = ({ key }: { key: string }) => {
+    navigate(key);
+  };
 
   const handleLogout = () => {
     logout();
   };
 
+  const userMenuItems = [
+    {
+      key: 'logout',
+      icon: <LogoutOutlined />,
+      label: 'Logout',
+      onClick: handleLogout,
+    },
+  ];
+
+  const getPageTitle = () => {
+    const currentItem = menuItems.find(item => item.key === location.pathname);
+    return currentItem?.label || 'Admin Panel';
+  };
+
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Mobile menu overlay */}
-      {sidebarOpen && (
-        <div 
-          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
+    <AntLayout style={{ minHeight: '100vh' }}>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        style={{
+          background: colorBgContainer,
+          boxShadow: '2px 0 8px 0 rgba(29,35,41,.05)',
+        }}
+        width={256}
+      >
+        <div
+          style={{
+            height: 64,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: collapsed ? 'center' : 'flex-start',
+            padding: collapsed ? 0 : '0 24px',
+            borderBottom: '1px solid #f0f0f0',
+          }}
+        >
+          {!collapsed ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div
+                style={{
+                  width: 32,
+                  height: 32,
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <DashboardOutlined style={{ color: 'white', fontSize: 16 }} />
+              </div>
+              <Title level={4} style={{ margin: 0, color: '#1a1a1a' }}>
+                Admin Panel
+              </Title>
+            </div>
+          ) : (
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <DashboardOutlined style={{ color: 'white', fontSize: 16 }} />
+            </div>
+          )}
+        </div>
+
+        <Menu
+          mode="inline"
+          selectedKeys={[location.pathname]}
+          items={menuItems}
+          onClick={handleMenuClick}
+          style={{
+            border: 'none',
+            marginTop: 16,
+          }}
         />
-      )}
+      </Sider>
 
-      {/* Sidebar */}
-      <div className={cn(
-        "fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0",
-        sidebarOpen ? "translate-x-0" : "-translate-x-full"
-      )}>
-        <div className="flex flex-col h-full">
-          {/* Logo */}
-          <div className="flex items-center justify-between h-16 px-6 border-b border-slate-200">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-                <GamepadIcon className="w-5 h-5 text-white" />
-              </div>
-              <span className="font-bold font-montserrat text-slate-900">Game Assets</span>
-            </div>
+      <AntLayout>
+        <Header
+          style={{
+            padding: '0 24px',
+            background: colorBgContainer,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <Button
-              variant="ghost"
-              size="sm"
-              className="lg:hidden"
-              onClick={() => setSidebarOpen(false)}
-            >
-              <X className="w-4 h-4" />
-            </Button>
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={() => setCollapsed(!collapsed)}
+              style={{
+                fontSize: '16px',
+                width: 64,
+                height: 64,
+              }}
+            />
+            <Title level={3} style={{ margin: 0, color: '#1a1a1a' }}>
+              {getPageTitle()}
+            </Title>
           </div>
 
-          {/* Navigation */}
-          <nav className="flex-1 px-4 py-6 space-y-2">
-            {navigation.map((item) => {
-              const isActive = location.pathname === item.href;
-              return (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  onClick={() => setSidebarOpen(false)}
-                  className={cn(
-                    "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors group",
-                    isActive 
-                      ? "bg-indigo-50 text-indigo-700 border border-indigo-200" 
-                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
-                  )}
-                >
-                  <item.icon className={cn(
-                    "w-5 h-5",
-                    isActive ? "text-indigo-600" : "text-slate-400 group-hover:text-slate-600"
-                  )} />
-                  {item.name}
-                  {isActive && <ChevronRight className="w-4 h-4 ml-auto text-indigo-600" />}
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* User menu */}
-          <div className="p-4 border-t border-slate-200">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
-                <span className="text-sm font-semibold text-amber-800">
-                  {user?.name?.charAt(0)}
-                </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  cursor: 'pointer',
+                  padding: '8px 12px',
+                  borderRadius: '8px',
+                  transition: 'background-color 0.3s',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#f5f5f5';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }}
+              >
+                <Avatar
+                  style={{
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  }}
+                  icon={<UserOutlined />}
+                />
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                  <span style={{ fontWeight: 500, fontSize: '14px' }}>{user?.name}</span>
+                  <span style={{ fontSize: '12px', color: '#666' }}>{user?.email}</span>
+                </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-slate-900 truncate">{user?.name}</p>
-                <p className="text-xs text-slate-500 truncate">{user?.email}</p>
-              </div>
-            </div>
-            <Button
-              onClick={handleLogout}
-              variant="outline"
-              size="sm"
-              className="w-full justify-start gap-2 text-slate-600 hover:text-slate-900"
-            >
-              <LogOut className="w-4 h-4" />
-              Sign out
-            </Button>
+            </Dropdown>
           </div>
-        </div>
-      </div>
+        </Header>
 
-      {/* Main content */}
-      <div className="lg:pl-64">
-        {/* Top bar */}
-        <div className="sticky top-0 z-40 lg:mx-auto bg-white border-b border-slate-200">
-          <div className="px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between h-16">
-              <div className="flex items-center">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="lg:hidden"
-                  onClick={() => setSidebarOpen(true)}
-                >
-                  <Menu className="w-5 h-5" />
-                </Button>
-                <h1 className="ml-4 text-xl font-semibold font-montserrat text-slate-900 lg:ml-0">
-                  {navigation.find(item => item.href === location.pathname)?.name || 'Game Assets Manager'}
-                </h1>
-              </div>
-              <div className="flex items-center gap-4">
-                <span className="text-sm text-slate-600 hidden sm:block">
-                  Welcome back, {user?.name}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Page content */}
-        <main className="py-6">
+        <Content
+          style={{
+            margin: 24,
+            padding: 24,
+            minHeight: 280,
+            background: colorBgContainer,
+            borderRadius: '12px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+          }}
+        >
           {children}
-        </main>
-      </div>
-    </div>
+        </Content>
+      </AntLayout>
+    </AntLayout>
   );
 };
 
