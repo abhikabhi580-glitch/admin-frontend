@@ -146,7 +146,7 @@ const Dashboard: React.FC = () => {
               }
               suffix={
                 <div style={{ fontSize: "12px", color: "#52c41a" }}>
-                  <ArrowUpOutlined /> 12%
+                  {/* <ArrowUpOutlined /> 12% */}
                 </div>
               }
             />
@@ -168,7 +168,7 @@ const Dashboard: React.FC = () => {
               }
               suffix={
                 <div style={{ fontSize: "12px", color: "#52c41a" }}>
-                  <ArrowUpOutlined /> 8%
+                  {/* <ArrowUpOutlined /> 8% */}
                 </div>
               }
             />
@@ -190,7 +190,7 @@ const Dashboard: React.FC = () => {
               }
               suffix={
                 <div style={{ fontSize: "12px", color: "#ff4d4f" }}>
-                  <ArrowDownOutlined /> 3%
+                  {/* <ArrowDownOutlined /> 3% */}
                 </div>
               }
             />
@@ -216,7 +216,7 @@ const Dashboard: React.FC = () => {
               }
               suffix={
                 <div style={{ fontSize: "12px", color: "#52c41a" }}>
-                  <ArrowUpOutlined /> 7%
+                  {/* <ArrowUpOutlined /> 7% */}
                 </div>
               }
             />
