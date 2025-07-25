@@ -2,132 +2,90 @@ import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Eye, EyeOff, GamepadIcon, AlertCircle } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
 
 const Login: React.FC = () => {
   const { login, isLoading } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState('admin@example.com');
+  const [password, setPassword] = useState('........');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-
-    if (!email || !password) {
-      setError('Please fill in all fields');
-      return;
-    }
-
-    const success = await login(email, password);
-    if (!success) {
-      setError('Invalid email or password');
-    }
+    await login(email, password);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-slate-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-2xl mb-4">
-            <GamepadIcon className="w-8 h-8 text-white" />
-          </div>
-          <h1 className="text-3xl font-bold font-montserrat text-slate-900">Game Assets Manager</h1>
-          <p className="text-slate-600 mt-2">Admin Panel</p>
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      {/* Top Navigation */}
+      <nav className="bg-white border-b border-gray-200 px-6 py-4">
+        <div className="flex justify-between items-center">
+          <span className="text-lg font-medium text-gray-900">Home</span>
+          <span className="text-sm text-gray-600">Example link</span>
         </div>
+      </nav>
 
-        <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
-          <CardHeader className="space-y-1 pb-6">
-            <CardTitle className="text-2xl font-semibold font-montserrat text-center">
-              Welcome back
-            </CardTitle>
-            <CardDescription className="text-center text-slate-600">
-              Sign in to your admin account
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-medium text-slate-700">
-                  Email address
-                </Label>
+      {/* Main Content */}
+      <div className="flex-1 flex items-center justify-center p-4">
+        <Card className="w-full max-w-md bg-white shadow-sm border border-gray-200">
+          <CardContent className="p-8">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-medium text-indigo-600 mb-2">Admin Login</h1>
+              <p className="text-gray-600">Sign in to access your dashboard</p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                  Email
+                </label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="admin@gamemanager.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="h-11"
+                  className="w-full h-12 px-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                   disabled={isLoading}
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium text-slate-700">
-                  Password
-                </Label>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="h-11 pr-10"
-                    disabled={isLoading}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-                    disabled={isLoading}
-                  >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                    Password
+                  </label>
+                  <a href="#" className="text-sm text-indigo-600 hover:text-indigo-500">
+                    Forgot password?
+                  </a>
                 </div>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full h-12 px-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  disabled={isLoading}
+                />
               </div>
-
-              {error && (
-                <Alert variant="destructive">
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>{error}</AlertDescription>
-                </Alert>
-              )}
 
               <Button
                 type="submit"
-                className="w-full h-11 font-medium"
+                className="w-full h-12 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md transition-colors"
                 disabled={isLoading}
               >
-                {isLoading ? (
-                  <div className="flex items-center gap-2">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                    Signing in...
-                  </div>
-                ) : (
-                  'Sign in'
-                )}
+                {isLoading ? 'Signing in...' : 'Sign in'}
               </Button>
             </form>
-
-            <div className="mt-6 p-4 bg-amber-50 rounded-lg border border-amber-200">
-              <p className="text-sm text-amber-800 font-medium mb-1">Demo Credentials:</p>
-              <p className="text-xs text-amber-700">
-                Email: admin@gamemanager.com<br />
-                Password: admin123
-              </p>
-            </div>
           </CardContent>
         </Card>
-
-        <p className="text-center text-sm text-slate-500 mt-6">
-          Secure admin access for game asset management
-        </p>
       </div>
+
+      {/* Footer */}
+      <footer className="bg-white border-t border-gray-200 px-6 py-4">
+        <div className="flex justify-between items-center">
+          <span className="text-sm text-gray-500">Build with new.website</span>
+          <span className="text-sm text-gray-500">made with new.website</span>
+        </div>
+      </footer>
     </div>
   );
 };
