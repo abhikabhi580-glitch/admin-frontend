@@ -57,28 +57,7 @@ const Characters: React.FC = () => {
       setCharacters(data);
     } catch (error) {
       // Mock data for demo if API fails
-      setCharacters([
-        {
-          _id: "1",
-          name: "Warrior Zara",
-          gender: "Female",
-          age: 25,
-          description: "A fierce warrior from the northern lands",
-          ability: "Sword Master",
-          redeemed: 150,
-          image: "/placeholder.svg",
-        },
-        {
-          _id: "2",
-          name: "Mage Elara",
-          gender: "Female",
-          age: 30,
-          description: "Powerful sorceress with elemental magic",
-          ability: "Elemental Magic",
-          redeemed: 200,
-          image: "/placeholder.svg",
-        },
-      ]);
+      setCharacters([]);
     } finally {
       setLoading(false);
     }
@@ -148,9 +127,9 @@ const Characters: React.FC = () => {
     } catch (error: any) {
       message.error(
         error.response?.data?.message ||
-          (editingCharacter
-            ? "Failed to update character"
-            : "Failed to create character"),
+        (editingCharacter
+          ? "Failed to update character"
+          : "Failed to create character"),
       );
     }
   };
@@ -191,6 +170,28 @@ const Characters: React.FC = () => {
       sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
+      title: "Sub Title",
+      dataIndex: "sub_title",
+      key: "sub_title",
+      sorter: (a, b) => a.sub_title.localeCompare(b.sub_title),
+    },
+    {
+      title: "Character Line",
+      dataIndex: "line",
+      key: "line"
+    },
+    {
+      title: "Special Ability",
+      dataIndex: "ability",
+      key: "ability",
+      render: (ability: string) => <Tag color="purple">{ability}</Tag>,
+    },
+    {
+      title: "Ability Description",
+      dataIndex: "description",
+      key: "description",
+    },
+    {
       title: "Gender",
       dataIndex: "gender",
       key: "gender",
@@ -215,18 +216,18 @@ const Characters: React.FC = () => {
       sorter: (a, b) => a.age - b.age,
     },
     {
-      title: "Ability",
-      dataIndex: "ability",
-      key: "ability",
-      render: (ability: string) => <Tag color="purple">{ability}</Tag>,
+      title: "Badge",
+      dataIndex: "badge",
+      key: "badge"
     },
-    {
-      title: "Redeemed",
-      dataIndex: "redeemed",
-      key: "redeemed",
-      sorter: (a, b) => a.redeemed - b.redeemed,
-      render: (redeemed: number) => <Tag color="green">{redeemed}</Tag>,
-    },
+
+    // {
+    //   title: "Redeemed",
+    //   dataIndex: "redeemed",
+    //   key: "redeemed",
+    //   sorter: (a, b) => a.redeemed - b.redeemed,
+    //   render: (redeemed: number) => <Tag color="green">{redeemed}</Tag>,
+    // },
     {
       title: "Actions",
       key: "actions",
@@ -333,6 +334,57 @@ const Characters: React.FC = () => {
             </Col>
             <Col span={12}>
               <Form.Item
+                name="sub_title"
+                label="Sub Title"
+                rules={[
+                  { required: true, message: "Please input character sub title!" },
+                ]}
+              >
+                <Input placeholder="Enter character sub title" />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Form.Item
+            name="line"
+            label="Character Line"
+            rules={[{ required: true, message: "Please input character line!" }]}
+          >
+            <TextArea rows={4} placeholder="Enter character character line" />
+          </Form.Item>
+
+
+          <Form.Item
+            name="ability"
+            label="Ability"
+            rules={[{ required: true, message: "Please input ability!" }]}
+          >
+            <Input placeholder="Enter character ability" />
+          </Form.Item>
+
+          <Form.Item
+            name="description"
+            label="Ability Description"
+            rules={[{ required: true, message: "Please input ability description!" }]}
+          >
+            <TextArea rows={4} placeholder="Enter character ability description" />
+          </Form.Item>
+          {/* <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                name="line"
+                label="Character Line"
+                rules={[
+                  { required: true, message: "Please input character line!" },
+                ]}
+              >
+                <Input placeholder="Enter character line" />
+              </Form.Item>
+            </Col>
+          </Row> */}
+
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
                 name="gender"
                 label="Gender"
                 rules={[{ required: true, message: "Please select gender!" }]}
@@ -344,9 +396,6 @@ const Characters: React.FC = () => {
                 </Select>
               </Form.Item>
             </Col>
-          </Row>
-
-          <Row gutter={16}>
             <Col span={12}>
               <Form.Item
                 name="age"
@@ -363,6 +412,17 @@ const Characters: React.FC = () => {
             </Col>
             <Col span={12}>
               <Form.Item
+                name="badge"
+                label="Badge"
+                rules={[
+                  { required: true, message: "Please input character badge!" },
+                ]}
+              >
+                <Input placeholder="Enter character badge" />
+              </Form.Item>
+            </Col>
+            {/* <Col span={12}>
+              <Form.Item
                 name="redeemed"
                 label="Redeemed"
                 rules={[
@@ -375,24 +435,10 @@ const Characters: React.FC = () => {
                   placeholder="Enter redeemed count"
                 />
               </Form.Item>
-            </Col>
+            </Col> */}
           </Row>
 
-          <Form.Item
-            name="ability"
-            label="Ability"
-            rules={[{ required: true, message: "Please input ability!" }]}
-          >
-            <Input placeholder="Enter character ability" />
-          </Form.Item>
 
-          <Form.Item
-            name="description"
-            label="Description"
-            rules={[{ required: true, message: "Please input description!" }]}
-          >
-            <TextArea rows={4} placeholder="Enter character description" />
-          </Form.Item>
 
           <Form.Item label="Image">
             <Upload

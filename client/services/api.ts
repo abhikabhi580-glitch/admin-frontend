@@ -23,6 +23,10 @@ api.interceptors.request.use((config) => {
 export interface Character {
   _id: string;
   name: string;
+  sub_title: string;
+  line: string;
+  badge: string;
+  birthday: number;
   gender: "Male" | "Female" | "Other";
   age: number;
   description: string;
