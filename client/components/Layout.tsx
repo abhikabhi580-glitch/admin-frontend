@@ -47,16 +47,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       icon: <UserOutlined />,
       label: "Characters",
     },
-    // {
-    //   key: "/pets",
-    //   icon: <HeartOutlined />,
-    //   label: "Pets",
-    // },
-    // {
-    //   key: "/vehicles",
-    //   icon: <CarOutlined />,
-    //   label: "Vehicles",
-    // },
+    {
+      key: "/pets",
+      icon: <HeartOutlined />,
+      label: "Pets",
+    },
+    {
+      key: "/vehicles",
+      icon: <CarOutlined />,
+      label: "Vehicles",
+    },
   ];
 
   const handleMenuClick = ({ key }: { key: string }) => {
