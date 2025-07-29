@@ -18,6 +18,7 @@ import {
   Typography,
   Tag,
   Avatar,
+  DatePicker,
 } from "antd";
 import {
   PlusOutlined,
@@ -30,6 +31,7 @@ import {
 import { charactersAPI, Character } from "@/services/api";
 import type { ColumnsType } from "antd/es/table";
 import type { UploadFile } from "antd/es/upload/interface";
+import dayjs from "dayjs";
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -71,15 +73,19 @@ const Characters: React.FC = () => {
   };
 
   const handleEdit = (character: Character) => {
+    const birthday =
+      character.birthday && typeof character.birthday === "string"
+        ? dayjs(character.birthday, "DD-MMM")
+        : null;
     setEditingCharacter(character);
-    form.setFieldsValue(character);
+    form.setFieldsValue({ ...character, birthday });
     if (character.image) {
       setFileList([
         {
           uid: "-1",
           name: "image.png",
           status: "done",
-          url: `https://admin-backend-f9p5.onrender.com/${character.image}`,
+          url: character.image,
         },
       ]);
     } else {
@@ -101,8 +107,13 @@ const Characters: React.FC = () => {
   const handleSubmit = async (values: any) => {
     try {
       const formData = new FormData();
+      if (values.birthday) {
+        const birthdayFormatted = values.birthday.format("DD-MMM");
+        formData.append("birthday", birthdayFormatted);
+      }
+
       Object.keys(values).forEach((key) => {
-        if (values[key] !== undefined && values[key] !== null) {
+        if (key !== "birthday" && values[key] !== undefined && values[key] !== null) {
           formData.append(key, values[key]);
         }
       });
@@ -153,14 +164,15 @@ const Characters: React.FC = () => {
       title: "Image",
       dataIndex: "image",
       key: "image",
-      width: 80,
+      // width: 80,
       render: (image: string) => (
-        <Avatar
-          size={50}
-          src={`https://admin-backend-f9p5.onrender.com/${image}`}
-          // icon={<UserOutlined />}
-          style={{ backgroundColor: "#1890ff" }}
-        />
+        <img src={image} style={{ backgroundColor: "transparent", width: '55px', height: '100px' }} />
+        // <Avatar
+        //   size={50}
+        //   src={image}
+        //   // icon={<UserOutlined />}
+        //   style={{ backgroundColor: "transparent",  width: '150px', height: '150px' }}
+        // />
       ),
     },
     {
@@ -174,11 +186,24 @@ const Characters: React.FC = () => {
       dataIndex: "sub_title",
       key: "sub_title",
       sorter: (a, b) => a.sub_title.localeCompare(b.sub_title),
+      ellipsis: true,
+    },
+    {
+      title: "Bio Description",
+      dataIndex: "bio_description",
+      key: "bio_description",
+      ellipsis: true,
     },
     {
       title: "Character Line",
       dataIndex: "line",
-      key: "line"
+      key: "line",
+      ellipsis: true,
+    },
+    {
+      title: "Birthday",
+      dataIndex: "birthday",
+      key: "birthday"
     },
     {
       title: "Special Ability",
@@ -190,6 +215,7 @@ const Characters: React.FC = () => {
       title: "Ability Description",
       dataIndex: "description",
       key: "description",
+      ellipsis: true,
     },
     {
       title: "Gender",
@@ -218,7 +244,8 @@ const Characters: React.FC = () => {
     {
       title: "Badge",
       dataIndex: "badge",
-      key: "badge"
+      key: "badge",
+      ellipsis: true,
     },
 
     // {
@@ -352,6 +379,20 @@ const Characters: React.FC = () => {
             <TextArea rows={4} placeholder="Enter character character line" />
           </Form.Item>
 
+          <Form.Item
+            name="bio_description"
+            label="Bio Description"
+            rules={[{ required: true, message: "Please input Bio Description!" }]}
+          >
+            <TextArea rows={4} placeholder="Enter character Bio Description" />
+          </Form.Item>
+          <Form.Item
+            name="birthday"
+            label="Birthday"
+            rules={[{ required: true, message: "Please select birthdate!" }]}
+          >
+            <DatePicker style={{ width: "100%" }} format="DD-MMM" picker="date" />
+          </Form.Item>
 
           <Form.Item
             name="ability"

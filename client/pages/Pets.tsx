@@ -51,24 +51,7 @@ const Pets: React.FC = () => {
       setPets(data);
     } catch (error) {
       // Mock data for demo if API fails
-      setPets([
-        {
-          _id: "1",
-          name: "Fire Phoenix",
-          sub_title: "Legendary Companion",
-          description: "A majestic fire bird with healing powers",
-          ability: "Fire Healing",
-          image: "/placeholder.svg",
-        },
-        {
-          _id: "2",
-          name: "Ice Wolf",
-          sub_title: "Arctic Guardian",
-          description: "A loyal wolf companion from the frozen lands",
-          ability: "Ice Shield",
-          image: "/placeholder.svg",
-        },
-      ]);
+      setPets([]);
     } finally {
       setLoading(false);
     }
@@ -90,7 +73,7 @@ const Pets: React.FC = () => {
           uid: "-1",
           name: "image.png",
           status: "done",
-          url: `https://admin-backend-f9p5.onrender.com/${pet.image}`,
+          url: pet.image,
         },
       ]);
     } else {
@@ -135,7 +118,7 @@ const Pets: React.FC = () => {
     } catch (error: any) {
       message.error(
         error.response?.data?.message ||
-          (editingPet ? "Failed to update pet" : "Failed to create pet"),
+        (editingPet ? "Failed to update pet" : "Failed to create pet"),
       );
     }
   };
@@ -160,14 +143,15 @@ const Pets: React.FC = () => {
       title: "Image",
       dataIndex: "image",
       key: "image",
-      width: 80,
+      // width: 80,
       render: (image: string) => (
-        <Avatar
-          size={50}
-          src={`https://admin-backend-f9p5.onrender.com/${image}`}
-          icon={<HeartOutlined />}
-          style={{ backgroundColor: "#eb2f96" }}
-        />
+        <img src={image} style={{ backgroundColor: "transparent", width: '55px', height: '100px' }} />
+        // <Avatar
+        //   size={50}
+        //   src={image}
+        //   icon={<HeartOutlined />}
+        //   style={{ backgroundColor: "#eb2f96" }}
+        // />
       ),
     },
     {

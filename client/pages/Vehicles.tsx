@@ -56,30 +56,7 @@ const Vehicles: React.FC = () => {
       setVehicles(data);
     } catch (error) {
       // Mock data for demo if API fails
-      setVehicles([
-        {
-          _id: "1",
-          name: "Lightning Bike",
-          hp: 250,
-          acceleration_torque: 85,
-          speed: 180,
-          control: 92,
-          seats: 2,
-          ideal_use_case: "Racing and quick travel",
-          image: "/placeholder.svg",
-        },
-        {
-          _id: "2",
-          name: "Storm Cruiser",
-          hp: 400,
-          acceleration_torque: 95,
-          speed: 220,
-          control: 88,
-          seats: 4,
-          ideal_use_case: "Long distance travel",
-          image: "/placeholder.svg",
-        },
-      ]);
+      setVehicles([]);
     } finally {
       setLoading(false);
     }
@@ -101,7 +78,7 @@ const Vehicles: React.FC = () => {
           uid: "-1",
           name: "image.png",
           status: "done",
-          url: `https://admin-backend-f9p5.onrender.com/${vehicle.image}`,
+          url: vehicle.image,
         },
       ]);
     } else {
@@ -179,14 +156,15 @@ const Vehicles: React.FC = () => {
       title: "Image",
       dataIndex: "image",
       key: "image",
-      width: 80,
+      // width: 80,
       render: (image: string) => (
-        <Avatar
-          size={50}
-          src={`https://admin-backend-f9p5.onrender.com/${image}`}
-          icon={<CarOutlined />}
-          style={{ backgroundColor: "#faad14" }}
-        />
+        <img src={image} style={{ backgroundColor: "transparent", width: '55px', height: '100px' }} />
+        // <Avatar
+        //   size={50}
+        //   src={image}
+        //   icon={<CarOutlined />}
+        //   style={{ backgroundColor: "#faad14" }}
+        // />
       ),
     },
     {
