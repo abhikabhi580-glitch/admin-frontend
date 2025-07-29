@@ -98,6 +98,7 @@ const Vehicles: React.FC = () => {
   };
 
   const handleSubmit = async (values: any) => {
+    setLoading(true);
     try {
       const formData = new FormData();
       Object.keys(values).forEach((key) => {
@@ -111,16 +112,17 @@ const Vehicles: React.FC = () => {
       }
 
       if (editingVehicle) {
-        const response = await vehiclesAPI.update(editingVehicle._id, formData);
+        const response = await vehiclesAPI.update(editingVehicle.id, formData);
         message.success(response.message || "Vehicle updated successfully");
       } else {
         const response = await vehiclesAPI.create(formData);
         message.success(response.message || "Vehicle created successfully");
       }
-
+      setLoading(false);
       setModalVisible(false);
       fetchVehicles();
     } catch (error: any) {
+      setLoading(false);
       message.error(
         error.response?.data?.message ||
         (editingVehicle
@@ -240,7 +242,7 @@ const Vehicles: React.FC = () => {
           />
           <Popconfirm
             title="Are you sure to delete this vehicle?"
-            onConfirm={() => handleDelete(record._id)}
+            onConfirm={() => handleDelete(record.id)}
             okText="Yes"
             cancelText="No"
           >
@@ -311,6 +313,10 @@ const Vehicles: React.FC = () => {
         onCancel={() => setModalVisible(false)}
         footer={null}
         width={700}
+        loading={loading}
+        maskClosable={!loading}
+        cancelButtonProps={{ loading: loading }}
+        closeIcon={false}
       >
         <Form
           form={form}

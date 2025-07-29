@@ -105,6 +105,7 @@ const Characters: React.FC = () => {
   };
 
   const handleSubmit = async (values: any) => {
+    setLoading(true);
     try {
       const formData = new FormData();
       if (values.birthday) {
@@ -124,7 +125,7 @@ const Characters: React.FC = () => {
 
       if (editingCharacter) {
         const response = await charactersAPI.update(
-          editingCharacter._id,
+          editingCharacter.id,
           formData,
         );
         message.success(response.message || "Character updated successfully");
@@ -132,10 +133,11 @@ const Characters: React.FC = () => {
         const response = await charactersAPI.create(formData);
         message.success(response.message || "Character created successfully");
       }
-
+      setLoading(false);
       setModalVisible(false);
       fetchCharacters();
     } catch (error: any) {
+      setLoading(false);
       message.error(
         error.response?.data?.message ||
         (editingCharacter
@@ -269,7 +271,7 @@ const Characters: React.FC = () => {
           />
           <Popconfirm
             title="Are you sure to delete this character?"
-            onConfirm={() => handleDelete(record._id)}
+            onConfirm={() => handleDelete(record.id)}
             okText="Yes"
             cancelText="No"
           >
@@ -340,6 +342,10 @@ const Characters: React.FC = () => {
         onCancel={() => setModalVisible(false)}
         footer={null}
         width={600}
+        loading={loading}
+        maskClosable={!loading}
+        cancelButtonProps={{ loading: loading }}
+        closeIcon={false}
       >
         <Form
           form={form}

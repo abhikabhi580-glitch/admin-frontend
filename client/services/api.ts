@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const API_BASE_URL = "https://admin-backend-f9p5.onrender.com";
+// const API_BASE_URL = "http://localhost:5000";
 
 // Create axios instance
 const api = axios.create({
@@ -21,12 +22,12 @@ api.interceptors.request.use((config) => {
 
 // Types matching backend response format
 export interface Character {
-  _id: string;
+  id: string;
   name: string;
   sub_title: string;
   line: string;
   badge: string;
-  birthday: number;
+  birthday: string;
   gender: "Male" | "Female" | "Other";
   age: number;
   description: string;
@@ -36,7 +37,7 @@ export interface Character {
 }
 
 export interface Pet {
-  _id: string;
+  id: string;
   name: string;
   sub_title: string;
   description: string;
@@ -45,7 +46,7 @@ export interface Pet {
 }
 
 export interface Vehicle {
-  _id: string;
+  id: string;
   name: string;
   hp: number;
   acceleration_torque: number;
