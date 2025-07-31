@@ -22,6 +22,7 @@ api.interceptors.request.use((config) => {
 
 // Types matching backend response format
 export interface Character {
+  _id: string;
   id: string;
   name: string;
   sub_title: string;
@@ -37,6 +38,7 @@ export interface Character {
 }
 
 export interface Pet {
+  _id: string;
   id: string;
   name: string;
   sub_title: string;
@@ -46,6 +48,7 @@ export interface Pet {
 }
 
 export interface Vehicle {
+  _id: string;
   id: string;
   name: string;
   hp: number;

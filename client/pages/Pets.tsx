@@ -107,7 +107,7 @@ const Pets: React.FC = () => {
       }
 
       if (editingPet) {
-        const response = await petsAPI.update(editingPet.id, formData);
+        const response = await petsAPI.update(editingPet.id ? editingPet.id : editingPet._id, formData);
         message.success(response.message || "Pet updated successfully");
       } else {
         const response = await petsAPI.create(formData);
@@ -194,7 +194,7 @@ const Pets: React.FC = () => {
           />
           <Popconfirm
             title="Are you sure to delete this pet?"
-            onConfirm={() => handleDelete(record.id)}
+            onConfirm={() => handleDelete(record.id ? record.id : record._id)}
             okText="Yes"
             cancelText="No"
           >

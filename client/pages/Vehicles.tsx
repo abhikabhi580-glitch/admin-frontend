@@ -112,7 +112,7 @@ const Vehicles: React.FC = () => {
       }
 
       if (editingVehicle) {
-        const response = await vehiclesAPI.update(editingVehicle.id, formData);
+        const response = await vehiclesAPI.update(editingVehicle.id ? editingVehicle.id : editingVehicle._id, formData);
         message.success(response.message || "Vehicle updated successfully");
       } else {
         const response = await vehiclesAPI.create(formData);
@@ -242,7 +242,7 @@ const Vehicles: React.FC = () => {
           />
           <Popconfirm
             title="Are you sure to delete this vehicle?"
-            onConfirm={() => handleDelete(record.id)}
+            onConfirm={() => handleDelete(record.id ? record.id : record._id)}
             okText="Yes"
             cancelText="No"
           >

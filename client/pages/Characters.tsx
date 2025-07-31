@@ -125,7 +125,7 @@ const Characters: React.FC = () => {
 
       if (editingCharacter) {
         const response = await charactersAPI.update(
-          editingCharacter.id,
+          editingCharacter.id ? editingCharacter.id : editingCharacter._id,
           formData,
         );
         message.success(response.message || "Character updated successfully");
@@ -271,7 +271,7 @@ const Characters: React.FC = () => {
           />
           <Popconfirm
             title="Are you sure to delete this character?"
-            onConfirm={() => handleDelete(record.id)}
+            onConfirm={() => handleDelete(record.id? record.id : record._id)}
             okText="Yes"
             cancelText="No"
           >
